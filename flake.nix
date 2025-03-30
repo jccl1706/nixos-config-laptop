@@ -10,12 +10,6 @@
       modules = [ 
 	./configuration.nix 
  	nixos-hardware.nixosModules.framework-13-7040-amd
-        #home-manager.nixosModules.home-manager
-	#{
-        #  home-manager.useGlobalPkgs = true;
-        #  home-manager.useUserPackages = true;
-        #  home-manager.users.jc = import ./home.nix;
-        #} 
       ];
     };
   };

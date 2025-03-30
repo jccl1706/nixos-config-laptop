@@ -12,20 +12,12 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.systemd.enable = true;
+  boot.plymouth.enable = true;
 
-  boot.initrd.luks.devices."luks-100a2836-067f-4f34-8379-f86e1f5fc8b7".device = "/dev/disk/by-uuid/100a2836-067f-4f34-8379-f86e1f5fc8b7";
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/boot/crypto_keyfile.bin" = null;
-  };
-
-  boot.loader.grub.enableCryptodisk = true;
-
-  boot.initrd.luks.devices."luks-4bd9f924-aa7f-4d9c-9eee-88981b120ff2".keyFile = "/boot/crypto_keyfile.bin";
-  boot.initrd.luks.devices."luks-100a2836-067f-4f34-8379-f86e1f5fc8b7".keyFile = "/boot/crypto_keyfile.bin";
+  boot.initrd.luks.devices."luks-afc8a227-6947-428b-9986-f9e73d099939".device = "/dev/disk/by-uuid/afc8a227-6947-428b-9986-f9e73d099939";
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -35,6 +27,9 @@
 
   # Filesystem options for SSD optimisation
   services.fstrim.enable = true;
+
+  # Power Profiles daemon service
+  services.power-profiles-daemon.enable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -157,5 +152,8 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  nix.nixPath = [ "nixpkgs=/etc/channels/nixpkgs" "nixos-config=/etc/nixos/configuration.nix" "/nix/var/nix/profiles/per-user/root/channels" ];
+  environment.etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
   
 }
